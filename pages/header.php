@@ -14,8 +14,13 @@
 				<a href="./" class="navbar-brand">Classificados</a>
 			</div>
 			<div class="nav navbar-nav navbar-right">
-				<li><a href="">Cadastre-se</a></li>
-				<li><a href="">Login</a></li>
+				<?php if (isset($_SESSION['cLogin']) && !empty($_SESSION['cLogin'])): ?>
+					<li><a href="meus-anuncios.php">Meus Anúncios</a></li>
+					<li><a href="sair.php">Sair</a></li>
+				<?php else: ?>
+					<li><a href="cadastre-se.php">Cadastre-se</a></li>
+					<li><a href="login.php">Login</a></li>
+				<?php endif ?>
 			</div>
 		</div>
 	</nav>
