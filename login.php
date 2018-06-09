@@ -1,4 +1,3 @@
-<?php require 'config.php'; ?>
 <?php require 'pages/header.php'; ?>
 
 <div class="container">

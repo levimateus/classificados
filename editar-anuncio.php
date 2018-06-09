@@ -16,18 +16,28 @@
 		$descricao = $_POST['descricao'];
 		$estado = $_POST['estado'];
 
-		$a->addAnuncio($titulo, $categoria, $valor, $descricao, $estado);
+		$a->editAnuncio($titulo, $categoria, $valor, $descricao, $estado, $_GET['id']);
 
 		?>
 		<div class="alert alert-success">
-			Produto adicionado com sucesso!
+			Produto editado com sucesso!
 		</div>
 		<?php
 	}
+
+	if (isset($_GET['id']) && !empty($_GET['id'])) {
+		$info = $a->getAnuncio($_GET['id']);
+	} else {
+		?>
+		<script type="text/javascript">window.location.href="meus-anuncios.php";</script>
+		<?php
+		exit();
+	}
+	
  ?>
 
  <div class="container">
- 	<h1>Meus Anúncios - Adicionar Anúncio</h1>
+ 	<h1>Meus Anúncios - Editar Anúncio</h1>
 
  	<form method="POST" enctype="multipart/form-data">
  		<div class="form-group">
@@ -39,31 +49,31 @@
  				$cats = $c->getLista();
  				foreach($cats as $cat):
  				?>
-				<option value="<?php echo $cat['id']; ?>"><?php echo utf8_encode($cat['nome']);?></option>
+				<option value="<?php echo $cat['id']; ?>" <?php echo ($info['id_categoria'] == $cat['id'])?'selected="selected"':'';?>><?php echo utf8_encode($cat['nome']);?></option>
  				<?php endforeach; ?>
  			</select>
  		</div>
  		<div class="form-group">
  			<label for="titulo">Título:</label>
- 			<input type="text" name="titulo" id="titulo" class="form-control">
+ 			<input type="text" name="titulo" id="titulo" class="form-control" value="<?php echo $info['titulo'];?>">
  		</div>
  		<div class="form-group">
  			<label for="valor">Valor:</label>
- 			<input type="text" name="valor" id="valor" class="form-control">
+ 			<input type="text" name="valor" id="valor" class="form-control" value="<?php echo $info['valor'];?>">
  		</div>
  		<div class="form-group">
  			<label for="descricao">Descrição:</label>
- 			<textarea name="descricao" id="descricao" class="form-control"></textarea>
+ 			<textarea name="descricao" id="descricao" class="form-control"><?php echo $info['descricao'];?></textarea>
  		</div>
  		<div class="form-group">
  			<label for="estado">Estado de Conservação:</label>
  			<select name="estado" id="estado" class="form-control">
- 				<option value="2">Ótimo</option>
- 				<option value="1">Bom</option>
- 				<option value="0">Ruim</option>
+ 				<option value="2" <?php echo ($info['estado'] == 2)?'selected="selected"':'';?>>Ótimo</option>
+ 				<option value="1" <?php echo ($info['estado'] == 1)?'selected="selected"':'';?>>Bom</option>
+ 				<option value="0" <?php echo ($info['estado'] == 0)?'selected="selected"':'';?>>Ruim</option>
  			</select>
  		</div>
- 		<input type="submit" value="Adicionar" class="btn btn-default">
+ 		<input type="submit" value="Salvar" class="btn btn-default">
  	</form>
  </div>
 
