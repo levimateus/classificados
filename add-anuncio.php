@@ -10,11 +10,11 @@
 	require 'classes/anuncios.class.php';
 	$a = new Anuncios();
 	if (isset($_POST['titulo']) && !empty($_POST['titulo'])) {
-		$titulo = $_POST['titulo'];
-		$categoria = $_POST['categoria'];
-		$valor = $_POST['valor'];
-		$descricao = $_POST['descricao'];
-		$estado = $_POST['estado'];
+		$titulo = addslashes($_POST['titulo']);
+		$categoria = addslashes($_POST['categoria']);
+		$valor = addslashes($_POST['valor']);
+		$descricao = addslashes($_POST['descricao']);
+		$estado = addslashes($_POST['estado']);
 
 		$a->addAnuncio($titulo, $categoria, $valor, $descricao, $estado);
 
