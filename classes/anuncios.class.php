@@ -1,6 +1,34 @@
 <?php 
 class Anuncios
 {
+	public function getTotalAnuncios(){
+		global $pdo;
+
+		$sql = $pdo->query("SELECT COUNT(*) AS c FROM anuncios");
+		$row = $sql->fetch();
+
+		return $row['c'];
+	}
+
+	public function getUltimosAnuncios($page, $perPage){
+		global $pdo;
+
+		$offset = ($page - 1) * $perPage;
+
+		$array = array();
+		$sql = $pdo->prepare("SELECT *, 
+			(SELECT anuncios_imagens.url FROM anuncios_imagens WHERE anuncios_imagens.id_anuncio = anuncios.id LIMIT 1) as url,
+			(SELECT categorias.nome FROM categorias WHERE categorias.id = anuncios.id_categoria) as categoria
+			FROM anuncios ORDER BY id DESC LIMIT $offset, $perPage");
+		$sql->execute();
+
+		if ($sql->rowCount() > 0) {
+			$array = $sql->fetchAll();
+		}
+
+		return $array;
+	}
+
 	public function getMeusAnuncios(){
 		global $pdo;
 
